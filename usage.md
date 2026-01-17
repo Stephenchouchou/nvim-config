@@ -28,6 +28,58 @@
 |--------|------|
 | `<leader>cp` | 開啟/關閉瀏覽器預覽 |
 
+#### zk-nvim (`lua/plugins/zk.lua`)
+
+Zettelkasten 筆記管理工具，整合 [zk](https://github.com/zk-org/zk) CLI。
+
+**前置需求：** 需先安裝 zk CLI
+
+```bash
+# Arch Linux
+sudo pacman -S zk
+
+# macOS
+brew install zk
+
+# 或從 GitHub 下載
+# https://github.com/zk-org/zk/releases
+```
+
+**初始化筆記庫：**
+
+```bash
+# 在你的筆記資料夾初始化
+cd ~/notes
+zk init
+```
+
+**快捷鍵：**
+
+| 快捷鍵 | 模式 | 說明 |
+|--------|------|------|
+| `<leader>zn` | Normal | 建立新筆記 |
+| `<leader>zo` | Normal | 開啟筆記列表 (依修改時間排序) |
+| `<leader>zt` | Normal | 依標籤瀏覽筆記 |
+| `<leader>zf` | Normal | 搜尋筆記內容 |
+| `<leader>zb` | Normal | 顯示反向連結 (誰連到這篇) |
+| `<leader>zl` | Normal | 顯示正向連結 (這篇連到誰) |
+| `<leader>zi` | Normal | 插入筆記連結 |
+| `<leader>zi` | Visual | 將選取文字轉為連結 |
+| `<leader>znt` | Visual | 以選取文字為標題建立新筆記 |
+| `<leader>znc` | Visual | 以選取文字為內容建立新筆記 |
+
+**常用指令：**
+
+| 指令 | 說明 |
+|------|------|
+| `:ZkNew` | 建立新筆記 |
+| `:ZkNotes` | 開啟筆記列表 |
+| `:ZkTags` | 依標籤瀏覽 |
+| `:ZkBacklinks` | 反向連結 |
+| `:ZkLinks` | 正向連結 |
+| `:ZkIndex` | 重新索引筆記庫 |
+| `:ZkCd` | 切換到筆記庫根目錄 |
+
 ---
 
 ## LazyVim 常用快捷鍵
@@ -150,7 +202,8 @@
     │   ├── lazy.lua      # lazy.nvim 設定
     │   └── options.lua   # Vim 選項設定
     └── plugins/
-        └── markdown_view.lua # Markdown 渲染與預覽設定
+        ├── markdown_view.lua # Markdown 渲染與預覽設定
+        └── zk.lua            # Zettelkasten 筆記管理
 ```
 
 ---

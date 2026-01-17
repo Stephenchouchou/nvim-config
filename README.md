@@ -7,6 +7,7 @@
 - LazyVim 作為基礎框架
 - Markdown 終端渲染 (render-markdown.nvim)
 - Markdown 瀏覽器即時預覽 (markdown-preview.nvim)
+- Zettelkasten 筆記管理 (zk-nvim)
 
 ## 安裝
 
@@ -16,6 +17,7 @@
 - Git
 - [Nerd Font](https://www.nerdfonts.com/) (推薦)
 - Node.js (Markdown 預覽需要)
+- [zk](https://github.com/zk-org/zk) (筆記管理需要)
 
 ### 安裝步驟
 
@@ -35,6 +37,12 @@ nvim
 | 快捷鍵 | 說明 |
 |--------|------|
 | `<leader>cp` | 開啟/關閉 Markdown 瀏覽器預覽 |
+| `<leader>zn` | 建立新筆記 |
+| `<leader>zo` | 開啟筆記列表 |
+| `<leader>zt` | 依標籤瀏覽筆記 |
+| `<leader>zf` | 搜尋筆記 |
+| `<leader>zb` | 顯示反向連結 |
+| `<leader>zl` | 顯示正向連結 |
 
 > `<leader>` 預設是空白鍵
 
@@ -50,7 +58,8 @@ nvim
 │   │   ├── lazy.lua
 │   │   └── options.lua
 │   └── plugins/
-│       └── markdown_view.lua
+│       ├── markdown_view.lua
+│       └── zk.lua
 └── lazy-lock.json
 ```
 

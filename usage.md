@@ -28,6 +28,49 @@
 |--------|------|
 | `<leader>cp` | 開啟/關閉瀏覽器預覽 |
 
+#### img-clip.nvim (`lua/plugins/img-clip.lua`)
+
+從剪貼簿貼上圖片到 Markdown。
+
+**使用方式：**
+1. 截圖或複製圖片到剪貼簿
+2. 在 Neovim 中按 `<leader>p`
+3. 圖片會自動儲存到 `assets/` 資料夾並插入連結
+
+| 快捷鍵 | 說明 |
+|--------|------|
+| `<leader>p` | 貼上剪貼簿圖片 |
+| `<leader>mf` | 貼上剪貼簿圖片 (同上) |
+
+#### markdown.nvim (`lua/plugins/markdown-extra.lua`)
+
+Markdown 編輯增強工具。
+
+**智慧貼上連結：**
+1. 選取文字 (Visual mode)
+2. 複製 URL 到剪貼簿
+3. 按 `p` 貼上，自動變成 `[選取文字](URL)`
+
+**快捷鍵：**
+
+| 快捷鍵 | 模式 | 說明 |
+|--------|------|------|
+| `<leader>mx` | Normal/Visual | 切換 checkbox |
+| `<leader>ml` | Normal | 在下方新增清單項目 |
+| `<leader>mL` | Normal | 在上方新增清單項目 |
+| `<leader>mt` | Normal | 插入目錄 (TOC) |
+
+**Inline 樣式切換 (gs + 動作)：**
+
+| 快捷鍵 | 說明 | 效果 |
+|--------|------|------|
+| `gsiwb` | 粗體 (word) | `**word**` |
+| `gsiwi` | 斜體 (word) | `*word*` |
+| `gsiws` | 刪除線 (word) | `~~word~~` |
+| `gsiwc` | 程式碼 (word) | `` `word` `` |
+
+> 也可以用 Visual 模式選取後按 `gsb`、`gsi` 等
+
 #### zk-nvim (`lua/plugins/zk.lua`)
 
 Zettelkasten 筆記管理工具，整合 [zk](https://github.com/zk-org/zk) CLI。
@@ -202,6 +245,8 @@ zk init
     │   ├── lazy.lua      # lazy.nvim 設定
     │   └── options.lua   # Vim 選項設定
     └── plugins/
+        ├── img-clip.lua      # 剪貼簿貼圖
+        ├── markdown-extra.lua # Markdown 編輯增強
         ├── markdown_view.lua # Markdown 渲染與預覽設定
         └── zk.lua            # Zettelkasten 筆記管理
 ```

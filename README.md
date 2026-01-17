@@ -8,6 +8,8 @@
 - Markdown 終端渲染 (render-markdown.nvim)
 - Markdown 瀏覽器即時預覽 (markdown-preview.nvim)
 - Zettelkasten 筆記管理 (zk-nvim)
+- 剪貼簿貼圖 (img-clip.nvim)
+- Markdown 編輯增強 (markdown.nvim)
 
 ## 安裝
 
@@ -37,6 +39,8 @@ nvim
 | 快捷鍵 | 說明 |
 |--------|------|
 | `<leader>cp` | 開啟/關閉 Markdown 瀏覽器預覽 |
+| `<leader>p` | 貼上剪貼簿圖片 |
+| `<leader>mx` | 切換 checkbox |
 | `<leader>zn` | 建立新筆記 |
 | `<leader>zo` | 開啟筆記列表 |
 | `<leader>zt` | 依標籤瀏覽筆記 |
@@ -58,6 +62,8 @@ nvim
 │   │   ├── lazy.lua
 │   │   └── options.lua
 │   └── plugins/
+│       ├── img-clip.lua
+│       ├── markdown-extra.lua
 │       ├── markdown_view.lua
 │       └── zk.lua
 └── lazy-lock.json

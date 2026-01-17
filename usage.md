@@ -28,6 +28,21 @@
 |--------|------|
 | `<leader>cp` | 開啟/關閉瀏覽器預覽 |
 
+#### image.nvim (`lua/plugins/image.lua`)
+
+在終端機內直接預覽圖片（需要 Kitty 終端機）。
+
+**支援格式：** PNG, JPG, JPEG, GIF, WebP, AVIF
+
+**功能：**
+- 開啟圖片檔案時直接顯示
+- Markdown 中的圖片自動渲染
+- 自動下載遠端圖片
+
+**前置需求：**
+- Kitty >= 28.0
+- ImageMagick (`sudo pacman -S imagemagick`)
+
 #### img-clip.nvim (`lua/plugins/img-clip.lua`)
 
 從剪貼簿貼上圖片到 Markdown。
@@ -245,6 +260,7 @@ zk init
     │   ├── lazy.lua      # lazy.nvim 設定
     │   └── options.lua   # Vim 選項設定
     └── plugins/
+        ├── image.lua         # 終端機圖片預覽 (Kitty)
         ├── img-clip.lua      # 剪貼簿貼圖
         ├── markdown-extra.lua # Markdown 編輯增強
         ├── markdown_view.lua # Markdown 渲染與預覽設定

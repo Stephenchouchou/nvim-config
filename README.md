@@ -10,6 +10,7 @@
 - Zettelkasten 筆記管理 (zk-nvim)
 - 剪貼簿貼圖 (img-clip.nvim)
 - Markdown 編輯增強 (markdown.nvim)
+- 終端機內圖片預覽 (image.nvim，需 Kitty)
 
 ## 安裝
 
@@ -20,6 +21,8 @@
 - [Nerd Font](https://www.nerdfonts.com/) (推薦)
 - Node.js (Markdown 預覽需要)
 - [zk](https://github.com/zk-org/zk) (筆記管理需要)
+- [ImageMagick](https://imagemagick.org/) (圖片預覽需要)
+- [Kitty](https://sw.kovidgoyal.net/kitty/) >= 28.0 (圖片預覽需要)
 
 ### 安裝步驟
 
@@ -62,6 +65,7 @@ nvim
 │   │   ├── lazy.lua
 │   │   └── options.lua
 │   └── plugins/
+│       ├── image.lua
 │       ├── img-clip.lua
 │       ├── markdown-extra.lua
 │       ├── markdown_view.lua

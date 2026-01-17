@@ -1,6 +1,7 @@
 return {
   {
     "zk-org/zk-nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" },
     config = function()
       require("zk").setup({
         -- 使用 Telescope 作為選擇器

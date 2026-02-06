@@ -27,7 +27,8 @@ return {
 
         -- CSS for better styling
         local css = [[
-body { font-family: "Noto Sans CJK TC", sans-serif; margin: 2cm; line-height: 1.6; }
+@page { margin: 1.5cm; }
+body { font-family: "Noto Sans CJK TC", sans-serif; margin: 0; line-height: 1.6; }
 table { border-collapse: collapse; width: auto; margin: 1em 0; table-layout: fixed; }
 th, td { border: 1px solid #333; padding: 8px 12px; text-align: left; vertical-align: top; }
 th { background-color: #f0f0f0; font-weight: bold; }

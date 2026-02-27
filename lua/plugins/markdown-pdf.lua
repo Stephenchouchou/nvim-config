@@ -18,13 +18,19 @@
 --       which causes Marp to wait for stdin instead of reading the file.
 
 return {
-  "nvim-lua/plenary.nvim",
+  "markdown-pdf",
+  dir = ".",
   keys = {
     -- Marp: Markdown → Slide PDF
     {
       "<leader>ms",
       function()
+        vim.cmd("silent! write")
         local file = vim.fn.expand("%:p")
+        if file == "" then
+          vim.notify("Buffer has no file path. Save the file first.", vim.log.levels.ERROR)
+          return
+        end
         local output = vim.fn.expand("%:p:r") .. "-slides.pdf"
         vim.fn.jobstart({ "marp-export", "--no-stdin", file, "--pdf", "--allow-local-files", "-o", output }, {
           on_exit = function(_, code)
@@ -46,7 +52,12 @@ return {
     {
       "<leader>mp",
       function()
+        vim.cmd("silent! write")
         local file = vim.fn.expand("%:p")
+        if file == "" then
+          vim.notify("Buffer has no file path. Save the file first.", vim.log.levels.ERROR)
+          return
+        end
         local output = vim.fn.expand("%:p:r") .. ".pdf"
 
         local css = [[
@@ -77,12 +88,14 @@ return {
         vim.fn.jobstart(cmd, {
           on_exit = function(_, code)
             os.remove(css_file)
-            if code == 0 then
-              vim.notify("PDF exported: " .. output, vim.log.levels.INFO)
-              vim.fn.jobstart({ "xdg-open", output })
-            else
-              vim.notify("PDF export failed", vim.log.levels.ERROR)
-            end
+            vim.schedule(function()
+              if code == 0 then
+                vim.notify("PDF exported: " .. output, vim.log.levels.INFO)
+                vim.fn.jobstart({ "xdg-open", output })
+              else
+                vim.notify("PDF export failed", vim.log.levels.ERROR)
+              end
+            end)
           end,
         })
         vim.notify("Exporting to PDF...", vim.log.levels.INFO)

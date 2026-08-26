@@ -140,6 +140,83 @@ zk init
 
 ---
 
+## C/C++／Zephyr clangd build 選擇器
+
+### 它解決什麼
+
+Zephyr 的每個 `west build -d build/<app>` 都會產生自己的
+`build/<app>/compile_commands.json`。clangd 不知道 `p18_coap_led_csma`、
+`p13_rcp` 或其他測試 build 哪一個才是目前要看的組態，因此不能安全地永遠選最新。
+
+`lua/config/clangd_build.lua` 會：
+
+1. 掃描目前 Git repo 的 `build/*/compile_commands.json`。
+2. 用 LazyVim 的選單搜尋 build directory。
+3. 記住每個 repo 上次選擇的 build。
+4. 把 `--compile-commands-dir=<選擇路徑>` 傳給 clangd。
+5. 切換後自動重新啟動 clangd，讓 `gd`、references、completion 與 diagnostics
+   使用同一份 firmware 組態。
+
+### 平常怎麼用
+
+```bash
+# 先正常建置；CMake 會在指定目錄產生 compile_commands.json
+west build -p -b er8130a_testboard_qfn40_v1 \
+  app/zephyr/p18_coap_led_csma -d build/p18_coap_led_csma
+
+# 從 repo 內開啟 Neovim
+nvim
+```
+
+進入 Neovim 後：
+
+1. 按 `Space c b`（`<leader>cb`）。
+2. 輸入部分名稱，例如 `p18`、`p13` 或 `p23`。
+3. 選擇需要的 `build/<name>`。
+4. 等 clangd 重新索引完成，之後照常用 `gd` 跳轉。
+
+選擇會保存在：
+
+```text
+~/.local/state/nvim/clangd-builds.json
+```
+
+重新開啟 Neovim 時會自動沿用，不需要修改 YAML。WISE Zephyr repo 第一次使用時預設為
+`build/p18_coap_led_csma`；只要選過一次，就以記住的選擇為優先。
+
+### 指令與快捷鍵
+
+| 操作 | 用途 |
+|------|------|
+| `<leader>cb` | 開啟 build 搜尋選單 |
+| `:ClangdBuildSelect` | 同上，選擇後記住並重啟 clangd |
+| `:ClangdBuildInfo` | 顯示目前使用的 build 與選擇來源 |
+| `:ClangdBuildLatest` | 明確切到最近更新的 build |
+| `:LspInfo` | 查看 clangd 是否 attach |
+| `:LspRestart clangd` | 手動重啟 clangd |
+
+`:ClangdBuildLatest` 不會在背景自動執行。這個 repo 有許多暫時性的驗證 build，
+若永遠自動選最新，很容易用 `p19_ctr_chk` 的編譯參數解析 `p18` 主程式。
+
+### 找不到或跳錯時
+
+- 選單沒有新 app：先確認 `build/<app>/compile_commands.json` 存在；必要時重新
+  執行一次 `west build`。
+- `gd` 跳到錯誤組態：執行 `:ClangdBuildInfo`，再用
+  `:ClangdBuildSelect` 選正確 build。
+- 已切換但 diagnostics 沒更新：等索引完成，或執行 `:LspRestart clangd`。
+- 換機後出現 GCC 專屬參數錯誤：確認
+  `~/.config/clangd/config.yaml` 指向本 repo 的 `clangd/config.yaml`。
+
+### 設定檔分工
+
+- `lua/config/clangd_build.lua`：掃描、選擇、記憶與重啟。
+- `lua/plugins/clangd.lua`：clangd／ARM cross-toolchain 參數與預設 build。
+- `clangd/config.yaml`：只移除 clang 不支援的 Zephyr GCC 參數，不影響 firmware build。
+- `NOTES.md`：最初故障原因、驗證證據與其他 C/C++ 專案產生 compilation database 的方法。
+
+---
+
 ## LazyVim 常用快捷鍵
 
 > `<leader>` 預設是 `空白鍵 (Space)`
@@ -191,6 +268,7 @@ zk init
 
 | 快捷鍵 | 說明 |
 |--------|------|
+| `<leader>cb` | 選擇 clangd 使用的 Zephyr build |
 | `gd` | 跳到定義 |
 | `gr` | 查看引用 |
 | `K` | 顯示文件說明 (hover) |
@@ -251,15 +329,19 @@ zk init
 ```
 ~/.config/nvim/
 ├── init.lua              # 入口，載入 lazy.nvim
+├── clangd/
+│   └── config.yaml       # Zephyr GCC → clangd 相容性規則
 ├── lazy-lock.json        # 插件版本鎖定檔
 ├── lazyvim.json          # LazyVim extras 設定
 └── lua/
     ├── config/
     │   ├── autocmds.lua  # 自動指令
+    │   ├── clangd_build.lua # compilation database 選擇器
     │   ├── keymaps.lua   # 自訂快捷鍵
     │   ├── lazy.lua      # lazy.nvim 設定
     │   └── options.lua   # Vim 選項設定
     └── plugins/
+        ├── clangd.lua        # clangd 與 ARM cross-toolchain 設定
         ├── image.lua         # 終端機圖片預覽 (Kitty)
         ├── img-clip.lua      # 剪貼簿貼圖
         ├── markdown-extra.lua # Markdown 編輯增強

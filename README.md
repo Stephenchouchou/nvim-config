@@ -5,6 +5,7 @@
 ## 特色
 
 - LazyVim 作為基礎框架
+- C/C++ clangd 與多 Zephyr build directory 切換
 - Markdown 終端渲染 (render-markdown.nvim)
 - Markdown 瀏覽器即時預覽 (markdown-preview.nvim)
 - Zettelkasten 筆記管理 (zk-nvim)
@@ -33,6 +34,10 @@ mv ~/.config/nvim ~/.config/nvim.bak
 # Clone 此 repo
 git clone https://github.com/Stephenchouchou/nvim-config.git ~/.config/nvim
 
+# 讓 clangd 讀取 repo 內追蹤的全域相容性設定
+mkdir -p ~/.config/clangd
+ln -s ~/.config/nvim/clangd/config.yaml ~/.config/clangd/config.yaml
+
 # 開啟 Neovim，插件會自動安裝
 nvim
 ```
@@ -41,6 +46,7 @@ nvim
 
 | 快捷鍵 | 說明 |
 |--------|------|
+| `<leader>cb` | 選擇並記住 clangd 使用的 build directory |
 | `<leader>cp` | 開啟/關閉 Markdown 瀏覽器預覽 |
 | `<leader>p` | 貼上剪貼簿圖片 |
 | `<leader>mx` | 切換 checkbox |
@@ -58,13 +64,17 @@ nvim
 ```
 ~/.config/nvim/
 ├── init.lua
+├── clangd/
+│   └── config.yaml
 ├── lua/
 │   ├── config/
 │   │   ├── autocmds.lua
+│   │   ├── clangd_build.lua
 │   │   ├── keymaps.lua
 │   │   ├── lazy.lua
 │   │   └── options.lua
 │   └── plugins/
+│       ├── clangd.lua
 │       ├── image.lua
 │       ├── img-clip.lua
 │       ├── markdown-extra.lua

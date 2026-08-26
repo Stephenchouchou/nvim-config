@@ -1,0 +1,12 @@
+# Project-local clang compatibility fixes. Neovim selects the active compilation
+# database from build/*/compile_commands.json and passes it to clangd.
+If:
+  PathMatch: /home/stephen/00-Project/wise_sdk_zephyr/.*
+
+CompileFlags:
+  # Zephyr's GCC command line contains options that clang does not implement.
+  # Removing them affects clangd parsing only, never the firmware build.
+  Remove:
+    - -fno-printf-return-value
+    - -mfp16-format=*
+    - -fno-reorder-functions
